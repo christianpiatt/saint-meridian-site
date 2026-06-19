@@ -7,6 +7,28 @@ const soundToggle = document.querySelector("[data-sound-toggle]");
 const signupForm = document.querySelector("[data-signup-form]");
 const formStatus = document.querySelector("[data-form-status]");
 let voicemailTimer;
+let voicemailContext;
+let voicemailSource;
+
+function prepareVoicemailSound() {
+  if (!voicemailAudio) return;
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContext) return;
+  if (!voicemailContext) {
+    voicemailContext = new AudioContext();
+    voicemailSource = voicemailContext.createMediaElementSource(voicemailAudio);
+    const highpass = voicemailContext.createBiquadFilter();
+    highpass.type = "highpass";
+    highpass.frequency.value = 285;
+    highpass.Q.value = 0.72;
+    const lowpass = voicemailContext.createBiquadFilter();
+    lowpass.type = "lowpass";
+    lowpass.frequency.value = 3450;
+    lowpass.Q.value = 0.68;
+    voicemailSource.connect(highpass).connect(lowpass).connect(voicemailContext.destination);
+  }
+  voicemailContext.resume();
+}
 
 if (atmosphereAudio) atmosphereAudio.volume = 0.52;
 
@@ -42,10 +64,11 @@ messageButton?.addEventListener("click", async () => {
 
   label.textContent = "Playing voicemail";
   try {
+    prepareVoicemailSound();
     if (atmosphereAudio && !atmosphereAudio.paused) atmosphereAudio.volume = 0.12;
     if (voicemailAmbience) {
       voicemailAmbience.currentTime = 0;
-      voicemailAmbience.volume = 0.72;
+      voicemailAmbience.volume = 1;
       await voicemailAmbience.play();
     }
     voicemailTimer = setTimeout(() => voicemailAudio?.play().catch(() => {}), 490);
