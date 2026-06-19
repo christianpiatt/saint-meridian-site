@@ -61,7 +61,7 @@
             <footer>— Voicemail received at the agency</footer>
           </blockquote>
           <audio id="voicemail-audio" preload="none">
-            <source src="assets/lisa-provenzano-voicemail.mp3" type="audio/mpeg" />
+            <source src="assets/audio/lisa-provenzano-voicemail.wav" type="audio/wav" />
           </audio>
         </div>
         <p class="visual-label">Existing Saint Meridian visual development · not gameplay footage</p>
@@ -168,6 +168,16 @@
         </form>
       </section>
     </main>
+
+    <div class="sound-control">
+      <button type="button" data-sound-toggle aria-pressed="false">
+        <span class="sound-bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span data-sound-label>Atmosphere off</span>
+      </button>
+      <audio id="atmosphere-audio" preload="metadata" loop>
+        <source src="assets/audio/saint-meridian-atmosphere.wav" type="audio/wav" />
+      </audio>
+    </div>
 
     <footer class="site-footer">
       <div>
