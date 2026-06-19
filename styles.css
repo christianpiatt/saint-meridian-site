@@ -114,7 +114,7 @@ h2 { margin: 0; font-size: clamp(2.8rem, 6vw, 6.5rem); }
 .character-card { min-width: 0; background: #0d1110; }
 .character-portrait { height: clamp(290px, 31vw, 460px); background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/saint-meridian-ensemble.jpg"); background-repeat: no-repeat; background-size: 600% auto; filter: saturate(.78) contrast(1.08); }
 .character-card.bella .character-portrait { background-position: 96% 100%; }
-.character-card.shane .character-portrait { background-position: 67% 24%; }
+.character-card.shane .character-portrait { background-position: 0% 24%; }
 .character-card.sofia .character-portrait { background-position: 49% 24%; }
 .character-card.nina .character-portrait { background-position: 37% 52%; }
 .character-card > div { padding: 1.35rem 1.25rem 1.6rem; }
