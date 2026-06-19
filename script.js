@@ -6,6 +6,20 @@ const soundToggle = document.querySelector("[data-sound-toggle]");
 const signupForm = document.querySelector("[data-signup-form]");
 const formStatus = document.querySelector("[data-form-status]");
 
+if (atmosphereAudio) atmosphereAudio.volume = 0.52;
+
+// Browsers often block audible autoplay. Keep sound as the intended default,
+// then begin it on the visitor's first interaction when autoplay is withheld.
+atmosphereAudio?.play().catch(() => {
+  const beginAtmosphere = () => {
+    atmosphereAudio.play().catch(() => {});
+    document.removeEventListener("pointerdown", beginAtmosphere);
+    document.removeEventListener("keydown", beginAtmosphere);
+  };
+  document.addEventListener("pointerdown", beginAtmosphere, { once: true });
+  document.addEventListener("keydown", beginAtmosphere, { once: true });
+});
+
 document.querySelector("[data-year]").textContent = new Date().getFullYear();
 
 messageButton?.addEventListener("click", async () => {
@@ -23,7 +37,7 @@ messageButton?.addEventListener("click", async () => {
 
   label.textContent = "Playing voicemail";
   try {
-    if (atmosphereAudio && !atmosphereAudio.paused) atmosphereAudio.volume = 0.08;
+    if (atmosphereAudio && !atmosphereAudio.paused) atmosphereAudio.volume = 0.12;
     await voicemailAudio?.play();
   } catch {
     label.textContent = "Voicemail transcript";
@@ -31,14 +45,14 @@ messageButton?.addEventListener("click", async () => {
 });
 
 voicemailAudio?.addEventListener("ended", () => {
-  if (atmosphereAudio && !atmosphereAudio.paused) atmosphereAudio.volume = 0.28;
+  if (atmosphereAudio && !atmosphereAudio.paused) atmosphereAudio.volume = 0.52;
   messageButton.querySelector("[data-message-label]").textContent = "Play again";
 });
 
 soundToggle?.addEventListener("click", async () => {
   const label = soundToggle.querySelector("[data-sound-label]");
   if (atmosphereAudio.paused) {
-    atmosphereAudio.volume = 0.28;
+    atmosphereAudio.volume = 0.52;
     try {
       await atmosphereAudio.play();
       soundToggle.setAttribute("aria-pressed", "true");
