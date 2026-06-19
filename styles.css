@@ -76,11 +76,11 @@ h1 { margin: 0; font-size: clamp(4rem, 9vw, 9rem); text-transform: uppercase; }
 .voicemail footer { margin-top: .6rem; color: var(--paper-soft); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; }
 
 .sound-control { position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 30; }
-.sound-control button { display: flex; align-items: center; gap: .75rem; min-width: 126px; padding: .82rem 1rem; border: 1px solid rgba(121,164,163,.9); color: var(--paper); background: rgba(24,45,43,.96); box-shadow: 0 8px 28px rgba(0,0,0,.42), 0 0 0 1px rgba(121,164,163,.14); backdrop-filter: blur(12px); cursor: pointer; font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
-.sound-control button:hover { background: rgba(39,68,65,.98); border-color: var(--paper); transform: translateY(-1px); }
-.sound-control button[aria-pressed="false"] { background: rgba(10,13,12,.92); border-color: rgba(231,224,210,.5); }
+.sound-control button { display: flex; align-items: center; gap: .75rem; min-width: 126px; padding: .82rem 1rem; border: 1px solid var(--paper); color: var(--ink); background: var(--paper); box-shadow: 0 8px 28px rgba(0,0,0,.48), 0 0 0 1px rgba(16,19,18,.22); cursor: pointer; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+.sound-control button:hover { background: #f4eee2; border-color: #f4eee2; transform: translateY(-1px); }
+.sound-control button[aria-pressed="false"] { color: var(--ink); background: var(--paper-soft); border-color: var(--paper-soft); }
 .sound-bars { display: flex; align-items: end; gap: 2px; width: 15px; height: 12px; }
-.sound-bars i { width: 3px; height: 35%; background: var(--blue-bright); }
+.sound-bars i { width: 3px; height: 35%; background: var(--ink); }
 .sound-bars i:nth-child(2) { height: 85%; }
 .sound-bars i:nth-child(3) { height: 55%; }
 .sound-control button[aria-pressed="true"] .sound-bars i { animation: sound-bars .8s ease-in-out infinite alternate; }
