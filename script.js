@@ -89,14 +89,14 @@ soundToggle?.addEventListener("click", async () => {
     try {
       await atmosphereAudio.play();
       soundToggle.setAttribute("aria-pressed", "true");
-      label.textContent = "Atmosphere on";
+      label.textContent = "Music on";
     } catch {
       label.textContent = "Sound unavailable";
     }
   } else {
     atmosphereAudio.pause();
     soundToggle.setAttribute("aria-pressed", "false");
-    label.textContent = "Atmosphere off";
+    label.textContent = "Music off";
   }
 });
 
