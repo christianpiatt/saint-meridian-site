@@ -19,12 +19,12 @@ function prepareVoicemailSound() {
     voicemailSource = voicemailContext.createMediaElementSource(voicemailAudio);
     const highpass = voicemailContext.createBiquadFilter();
     highpass.type = "highpass";
-    highpass.frequency.value = 285;
-    highpass.Q.value = 0.72;
+    highpass.frequency.value = 425;
+    highpass.Q.value = 0.82;
     const lowpass = voicemailContext.createBiquadFilter();
     lowpass.type = "lowpass";
-    lowpass.frequency.value = 3450;
-    lowpass.Q.value = 0.68;
+    lowpass.frequency.value = 2750;
+    lowpass.Q.value = 0.76;
     voicemailSource.connect(highpass).connect(lowpass).connect(voicemailContext.destination);
   }
   voicemailContext.resume();
