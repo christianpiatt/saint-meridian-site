@@ -1,15 +1,34 @@
 const messageButton = document.querySelector(".message-button");
 const voicemail = document.querySelector("#voicemail");
+const voicemailAudio = document.querySelector("#voicemail-audio");
 const signupForm = document.querySelector("[data-signup-form]");
 const formStatus = document.querySelector("[data-form-status]");
 
 document.querySelector("[data-year]").textContent = new Date().getFullYear();
 
-messageButton?.addEventListener("click", () => {
+messageButton?.addEventListener("click", async () => {
   const isOpen = messageButton.getAttribute("aria-expanded") === "true";
   messageButton.setAttribute("aria-expanded", String(!isOpen));
   voicemail.hidden = isOpen;
-  messageButton.querySelector("[data-message-label]").textContent = isOpen ? "Play the message" : "Hide the message";
+  const label = messageButton.querySelector("[data-message-label]");
+
+  if (isOpen) {
+    voicemailAudio?.pause();
+    if (voicemailAudio) voicemailAudio.currentTime = 0;
+    label.textContent = "Open voicemail";
+    return;
+  }
+
+  label.textContent = "Playing voicemail";
+  try {
+    await voicemailAudio?.play();
+  } catch {
+    label.textContent = "Voicemail transcript";
+  }
+});
+
+voicemailAudio?.addEventListener("ended", () => {
+  messageButton.querySelector("[data-message-label]").textContent = "Play again";
 });
 
 signupForm?.addEventListener("submit", async (event) => {
