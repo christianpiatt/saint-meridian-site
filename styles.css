@@ -112,11 +112,11 @@ h2 { margin: 0; font-size: clamp(2.8rem, 6vw, 6.5rem); }
 .characters-heading > p:last-child { max-width: 520px; margin: 0 0 .35rem; color: var(--paper-soft); }
 .character-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .character-card { min-width: 0; background: #0d1110; }
-.character-portrait { height: clamp(290px, 31vw, 460px); background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/saint-meridian-ensemble.jpg"); background-repeat: no-repeat; background-size: 600% auto; filter: saturate(.78) contrast(1.08); }
-.character-card.bella .character-portrait { background-position: 96% 100%; }
-.character-card.shane .character-portrait { background-position: 0% 24%; }
-.character-card.sofia .character-portrait { background-position: 49% 24%; }
-.character-card.nina .character-portrait { background-position: 37% 52%; }
+.character-portrait { height: clamp(290px, 31vw, 460px); background-repeat: no-repeat; background-size: cover; background-position: center 18%; filter: saturate(.82) contrast(1.06); }
+.character-card.bella .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/bella-moreau-v3.png"); background-position: center 18%; }
+.character-card.shane .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/saint-meridian-ensemble.jpg"); background-size: 600% auto; background-position: 0% 24%; }
+.character-card.sophia .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/sophia-alvarez-v2.png"); }
+.character-card.nina .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/nina-mercer-v2.png"); }
 .character-card > div { padding: 1.35rem 1.25rem 1.6rem; }
 .character-card h3 { margin: .2rem 0 .8rem; font: 800 1.65rem/.95 var(--display); letter-spacing: -.01em; text-transform: uppercase; }
 .character-card p { margin: 0; color: var(--paper-soft); font-size: .88rem; line-height: 1.55; }
