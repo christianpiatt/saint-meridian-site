@@ -59,18 +59,18 @@ button { cursor: pointer; }
   z-index: -4;
   object-fit: cover;
   object-position: center;
-  filter: saturate(.86) contrast(1.05);
-  transition: opacity .25s ease;
+  filter: saturate(.94) contrast(1.05) brightness(1.08);
+  transition: opacity .25s ease, transform .25s ease, object-position .25s ease;
 }
 .scene-wash {
   z-index: -3;
   background:
-    linear-gradient(90deg, rgba(8, 11, 10, .82), rgba(8, 11, 10, .18) 48%, rgba(8, 11, 10, .74)),
-    linear-gradient(0deg, rgba(8, 11, 10, .88), rgba(8, 11, 10, .08) 52%, rgba(8, 11, 10, .5));
+    linear-gradient(90deg, rgba(8, 11, 10, .52), rgba(8, 11, 10, .04) 48%, rgba(8, 11, 10, .44)),
+    linear-gradient(0deg, rgba(8, 11, 10, .58), rgba(8, 11, 10, .02) 52%, rgba(8, 11, 10, .28));
 }
 .scene-vignette {
   z-index: -2;
-  box-shadow: inset 0 0 150px rgba(0, 0, 0, .72);
+  box-shadow: inset 0 0 110px rgba(0, 0, 0, .48);
 }
 
 .topbar {
@@ -276,6 +276,130 @@ button:disabled { opacity: .5; cursor: not-allowed; }
 }
 .tool svg { width: 24px; height: 24px; color: var(--blue); }
 
+.scene-hotspots {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.scene-hotspot {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(231, 224, 210, .6);
+  border-radius: 999px;
+  color: var(--paper);
+  background: rgba(8, 11, 10, .08);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .38), 0 0 28px rgba(231, 224, 210, .18);
+  pointer-events: auto;
+}
+.scene-hotspot::before,
+.scene-hotspot::after {
+  content: "";
+  position: absolute;
+  background: rgba(231, 224, 210, .86);
+}
+.scene-hotspot::before {
+  width: 20px;
+  height: 1px;
+}
+.scene-hotspot::after {
+  width: 1px;
+  height: 20px;
+}
+.scene-hotspot span {
+  position: absolute;
+  top: calc(100% + .35rem);
+  left: 50%;
+  translate: -50% 0;
+  padding: .25rem .4rem;
+  border: 1px solid rgba(231, 224, 210, .28);
+  color: var(--paper);
+  background: rgba(8, 11, 10, .68);
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.scene-hotspot.done {
+  border-color: var(--blue);
+  background: rgba(51, 79, 78, .26);
+}
+.scene-hotspot[data-hotspot="desk"] {
+  left: 46%;
+  top: 64%;
+}
+.scene-hotspot[data-hotspot="board"] {
+  left: 63%;
+  top: 28%;
+}
+.scene-hotspot[data-hotspot="file"] {
+  left: 32%;
+  top: 58%;
+}
+.inspection-caption {
+  width: min(420px, calc(100% - 2rem));
+  padding: .9rem 1rem;
+  border-left: 4px solid var(--blue);
+  color: var(--paper);
+  background: rgba(8, 11, 10, .68);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .34);
+}
+.inspection-caption h2 {
+  margin: 0 0 .45rem;
+  font-family: var(--display);
+  font-size: clamp(1.5rem, 4vw, 2.6rem);
+  line-height: .96;
+  text-transform: uppercase;
+}
+.inspection-caption p { margin: .4rem 0 0; color: var(--paper-soft); }
+.game-shell[data-step="inspectClose"] .workspace {
+  margin-top: clamp(6rem, 18vh, 11rem);
+}
+.game-shell[data-step="inspectClose"][data-inspect-target="desk"] .scene-image {
+  transform: scale(1.78);
+  transform-origin: 45% 72%;
+  object-position: 44% 63%;
+}
+.game-shell[data-step="inspectClose"][data-inspect-target="board"] .scene-image {
+  transform: scale(1.72);
+  transform-origin: 20% 27%;
+  object-position: 26% 31%;
+}
+.game-shell[data-step="inspectClose"][data-inspect-target="file"] .scene-image {
+  transform: scale(1.86);
+  transform-origin: 34% 73%;
+  object-position: 35% 56%;
+}
+
+.response-strip {
+  position: absolute;
+  left: clamp(1rem, 5vw, 4rem);
+  right: clamp(1rem, 5vw, 4rem);
+  bottom: clamp(1rem, 4vw, 2rem);
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  align-items: flex-end;
+}
+.script-choice {
+  max-width: min(360px, 100%);
+  min-height: 0;
+  padding: .72rem .9rem;
+  border: 1px solid rgba(16, 19, 18, .28);
+  border-radius: 8px;
+  color: var(--ink);
+  background: rgba(238, 232, 218, .94);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .32);
+  font-size: .95rem;
+  font-weight: 750;
+  text-align: left;
+}
+
 .phone-ui { width: min(320px, 100%); padding: 1rem; }
 .phone-screen {
   padding: 1rem;
@@ -454,7 +578,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
   gap: .85rem;
   width: min(520px, calc(100% - 2rem));
   padding: .95rem 1rem;
-  border: 1px solid rgba(231, 224, 210, .42);
+  border: 2px solid rgba(16, 19, 18, .22);
   background: rgba(231, 224, 210, .92);
   color: var(--ink);
   box-shadow: 0 18px 60px rgba(0, 0, 0, .44);
@@ -465,7 +589,7 @@ button:disabled { opacity: .5; cursor: not-allowed; }
   display: none;
 }
 .dialogue-panel[data-mode="speech"] {
-  border-radius: 8px;
+  border-radius: 18px;
   color: var(--ink);
   background: rgba(238, 232, 218, .94);
 }
@@ -535,7 +659,6 @@ button:disabled { opacity: .5; cursor: not-allowed; }
   bottom: clamp(1rem, 4vw, 2rem);
 }
 .game-shell[data-step="arrival"] .dialogue-panel,
-.game-shell[data-step="intro"] .dialogue-panel,
 .game-shell[data-step="prep"] .dialogue-panel,
 .game-shell[data-step="housingTour"] .dialogue-panel,
 .game-shell[data-step="harbourtown"] .dialogue-panel,
@@ -547,7 +670,6 @@ button:disabled { opacity: .5; cursor: not-allowed; }
   right: auto;
   bottom: clamp(1rem, 4vw, 2rem);
 }
-.game-shell[data-step="intro"] .dialogue-panel::after,
 .game-shell[data-step="prep"] .dialogue-panel::after,
 .game-shell[data-step="housingTour"] .dialogue-panel::after,
 .game-shell[data-step="harbourtown"] .dialogue-panel::after,
@@ -677,6 +799,24 @@ button:disabled { opacity: .5; cursor: not-allowed; }
     position: static;
     margin: .5rem;
     width: auto;
+  }
+  .game-shell[data-step="intro"] .dialogue-panel {
+    top: 7.9rem;
+    bottom: auto;
+  }
+  .response-strip {
+    position: fixed;
+    left: .5rem;
+    right: .5rem;
+    bottom: .5rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .4rem;
+  }
+  .script-choice {
+    width: 100%;
+    max-width: none;
+    padding: .65rem .8rem;
   }
   .dialogue-actions {
     position: fixed;

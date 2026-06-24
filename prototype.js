@@ -33,8 +33,10 @@ const assets = {
 
 const steps = [
   "intake",
-  "arrival",
+  "officeDoor",
   "intro",
+  "arrival",
+  "inspectClose",
   "tools",
   "pin",
   "route",
@@ -59,6 +61,7 @@ const state = {
   visited: new Set(["intake"]),
   profile: {},
   inspections: new Set(),
+  inspectTarget: "",
   pin: "",
   route: "",
   housing: "",
@@ -124,7 +127,9 @@ function render() {
   renderState();
   const renderers = {
     intake,
+    officeDoor,
     arrival,
+    inspectClose,
     intro,
     tools,
     pin,
@@ -153,6 +158,7 @@ function scene(image, location, speaker, line) {
   el.speaker.textContent = speaker;
   el.line.textContent = line;
   setStoryPanel(speaker);
+  el.game.dataset.inspectTarget = state.inspectTarget || "";
   el.actions.innerHTML = "";
   el.workspace.innerHTML = "";
 }
@@ -259,74 +265,102 @@ function intake() {
       return;
     }
     state.profile = Object.fromEntries(new FormData(form));
-    setScene("arrival");
+    setScene("officeDoor");
   });
 }
 
+function officeDoor() {
+  scene(assets.office, "Agency Hallway", "Narration", `${state.profile.name || "You"} stops outside the Parker & Alvarez office door. Voices move on the other side, low and unfinished.`);
+  el.workspace.innerHTML = "";
+  el.actions.innerHTML = button("Open the door", "", "primary-button", 'data-action="enter-office"');
+  bindButtons({ "enter-office": () => setScene("intro") });
+}
+
 function arrival() {
-  scene(assets.office, "Agency Office", "Narration", `${state.profile.name || "You"} steps into the agency before anyone has decided what kind of investigator you are. The board is already looking back.`);
+  scene(assets.office, "Agency Office", "Narration", "Sophia leaves you at the desk long enough for the room to become specific.");
   const inspectDone = state.inspections.has("desk") && state.inspections.has("board") && state.inspections.has("file");
   el.workspace.innerHTML = `
-    <div class="card">
-      <p class="eyebrow">First look</p>
-      <h2>The office faces inward.</h2>
-      <div class="hotspot-grid">
-        ${hotspot("desk", "Your desk", "A camera, notebook, and agency phone wait in a careful row.")}
-        ${hotspot("board", "The board", "Bella Moreau's name has a place before you understand why.")}
-        ${hotspot("file", "The file", "A fifteen-year-old girl looks back from a photograph nobody has learned how to answer.")}
-      </div>
+    <div class="scene-hotspots" aria-label="Office inspection points">
+      ${sceneHotspot("desk", "Desk")}
+      ${sceneHotspot("board", "Board")}
+      ${sceneHotspot("file", "File")}
     </div>`;
   el.actions.innerHTML = inspectDone ? button("Continue", "", "primary-button", 'data-action="next"') : "";
-  bindHotspots();
-  bindButtons({ next: () => setScene("intro") });
+  bindSceneHotspots();
+  bindButtons({ next: () => setScene("tools") });
 }
 
-function hotspot(id, title, text) {
+function sceneHotspot(id, label) {
   const done = state.inspections.has(id) ? "done" : "";
-  return `<button class="hotspot ${done}" type="button" data-hotspot="${id}"><strong>${title}</strong><span>${text}</span></button>`;
+  return `<button class="scene-hotspot ${done}" type="button" data-hotspot="${id}"><span>${label}</span></button>`;
 }
 
-function bindHotspots() {
+function bindSceneHotspots() {
   document.querySelectorAll("[data-hotspot]").forEach((node) => {
     node.addEventListener("click", () => {
-      state.inspections.add(node.dataset.hotspot);
-      render();
+      state.inspectTarget = node.dataset.hotspot;
+      state.inspections.add(state.inspectTarget);
+      setScene("inspectClose");
     });
   });
 }
 
-function intro() {
-  scene(assets.dialogue, "Agency Office", "Sophia", "Shane trusts evidence because it does not flatter anyone. I trust what people do when evidence makes them afraid.");
+function inspectClose() {
+  const details = {
+    desk: {
+      location: "Player Desk",
+      speaker: "Narration",
+      line: "Camera. Notebook. Agency phone. Ordinary tools, arranged like someone expects you to use them before you understand them.",
+      heading: "Your desk",
+      body: "The desk faces inward, toward Shane, Sophia, and the case board. No one here works alone for long.",
+    },
+    board: {
+      location: "Case Board",
+      speaker: "Narration",
+      line: "Bella Moreau's name is already pinned where the room can keep seeing it.",
+      heading: "The board",
+      body: "Facts will go here. So will guesses, if they survive being looked at.",
+    },
+    file: {
+      location: "Bella File",
+      speaker: "Narration",
+      line: "A fifteen-year-old girl looks back from the file, ordinary enough to make the room quieter.",
+      heading: "The file",
+      body: "The first page gives you dates and places. None of them answer the question.",
+    },
+  };
+  const detail = details[state.inspectTarget] || details.desk;
+  scene(assets.office, detail.location, detail.speaker, detail.line);
   el.workspace.innerHTML = `
-    <div class="card">
-      <p class="eyebrow">Shane Parker · Sophia Alvarez</p>
-      <h2>First briefing</h2>
-      <div class="choice-grid">
-        <button class="choice-button" type="button" data-action="tone" data-tone="observe"><strong>Watch first</strong><span>Let the room reveal its order.</span></button>
-        <button class="choice-button" type="button" data-action="tone" data-tone="ask"><strong>Ask directly</strong><span>Put the first question on the table.</span></button>
-        <button class="choice-button" type="button" data-action="tone" data-tone="connect"><strong>Name the pattern</strong><span>Start with the thread between Bella and the docks.</span></button>
-      </div>
+    <div class="inspection-caption">
+      <p class="eyebrow">Close look</p>
+      <h2>${detail.heading}</h2>
+      <p>${detail.body}</p>
+    </div>`;
+  el.actions.innerHTML = button("Back to desk", "", "primary-button", 'data-action="back-office"');
+  bindButtons({ "back-office": () => {
+    state.inspectTarget = "";
+    setScene("arrival");
+  }});
+}
+
+function intro() {
+  scene(assets.dialogue, "Agency Office Door", "Sophia", "You must be the new investigator. Come in. Shane is pretending not to watch the door.");
+  el.workspace.innerHTML = `
+    <div class="response-strip">
+      <button class="script-choice" type="button" data-action="tone" data-tone="observe">“I’ll watch first.”</button>
+      <button class="script-choice" type="button" data-action="tone" data-tone="ask">“Tell me where to start.”</button>
+      <button class="script-choice" type="button" data-action="tone" data-tone="connect">“Bella and the docks are connected?”</button>
     </div>`;
   bindButtons({ tone: (event) => {
     state.profile.tone = event.currentTarget.dataset.tone;
-    setScene("tools");
+    setScene("arrival");
   }});
 }
 
 function tools() {
   scene(assets.office, "Agency Office", "Shane", "The tools are ordinary. That's the point. Ordinary things survive panic better than theories do.");
-  el.workspace.innerHTML = `
-    <div class="tool-panel">
-      <div class="tool-row">
-        <div class="tool">${icon("camera")}Camera</div>
-        <div class="tool">${icon("notebook")}Notebook</div>
-        <div class="tool">${icon("phone")}Phone</div>
-        <div class="tool">${icon("board")}Case board</div>
-      </div>
-    </div>
-    <div class="card">
-      <p>Cafe Origin coffee cools beside the phone. Sophia's note is short enough to be annoying.</p>
-    </div>`;
+  el.workspace.innerHTML = "";
   el.actions.innerHTML = button("Check phone", "", "primary-button", 'data-action="phone"');
   bindButtons({ phone: () => setScene("pin") });
 }
