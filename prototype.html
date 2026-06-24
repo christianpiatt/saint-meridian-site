@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101312" />
+    <meta
+      name="description"
+      content="Saint Meridian Scenes 1-6 playable proof-of-concept."
+    />
+    <title>Saint Meridian - Scenes 1-6 Prototype</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' fill='%23101312'/><text x='32' y='43' text-anchor='middle' font-family='Georgia' font-size='36' fill='%23e7e0d2'>S</text></svg>" />
+    <link rel="stylesheet" href="prototype.css" />
+    <script src="prototype.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#game">Skip to case file</a>
+
+    <main id="game" class="game-shell" aria-live="polite">
+      <section class="stage" aria-label="Saint Meridian prototype scene">
+        <img class="scene-image" data-scene-image alt="" />
+        <div class="scene-wash" aria-hidden="true"></div>
+        <div class="scene-vignette" aria-hidden="true"></div>
+
+        <header class="topbar">
+          <a class="wordmark" href="index.html" aria-label="Saint Meridian home">
+            <span>Saint</span><span>Meridian</span>
+          </a>
+          <div class="case-meta">
+            <span data-day>Day One</span>
+            <span data-location>Agency Office</span>
+          </div>
+        </header>
+
+        <div class="progress-strip" data-progress aria-label="Prototype progress"></div>
+
+        <section class="workspace" data-workspace></section>
+
+        <section class="dialogue-panel" data-dialogue-panel>
+          <div>
+            <p class="speaker" data-speaker></p>
+            <p class="line" data-line></p>
+          </div>
+        </section>
+
+        <div class="dialogue-actions" data-actions aria-label="Available actions"></div>
+      </section>
+
+      <aside class="case-state" aria-label="Current case state">
+        <div>
+          <p class="label">Investigator</p>
+          <p data-profile-summary>Intake pending</p>
+        </div>
+        <div>
+          <p class="label">Route</p>
+          <p data-route-summary>Unchosen</p>
+        </div>
+        <div>
+          <p class="label">Evidence</p>
+          <ul data-evidence-list></ul>
+        </div>
+        <div>
+          <p class="label">Notebook</p>
+          <ul data-note-list></ul>
+        </div>
+      </aside>
+    </main>
+  </body>
+</html>
