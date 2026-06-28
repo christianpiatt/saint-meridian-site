@@ -112,7 +112,8 @@ h2 { margin: 0; font-size: clamp(2.8rem, 6vw, 6.5rem); }
 .characters-heading > p:last-child { max-width: 520px; margin: 0 0 .35rem; color: var(--paper-soft); }
 .character-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .character-card { min-width: 0; background: #0d1110; }
-.character-portrait { height: clamp(290px, 31vw, 460px); background-repeat: no-repeat; background-size: cover; background-position: center 18%; filter: saturate(.82) contrast(1.06); }
+.character-portrait { display: block; width: 100%; height: clamp(290px, 31vw, 460px); padding: 0; border: 0; background-color: #0d1110; background-repeat: no-repeat; background-size: cover; background-position: center 18%; filter: saturate(.82) contrast(1.06); cursor: zoom-in; }
+.character-portrait:hover, .gallery-open:hover img { filter: saturate(.95) contrast(1.1); }
 .character-card.bella .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/bella-moreau-v3.png"); background-position: center 18%; }
 .character-card.shane .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/saint-meridian-ensemble.jpg"); background-size: 600% auto; background-position: 0% 24%; }
 .character-card.sophia .character-portrait { background-image: linear-gradient(0deg, rgba(8,11,10,.18), transparent 45%), url("assets/sophia-alvarez-v2.png"); }
@@ -135,8 +136,23 @@ h2 { margin: 0; font-size: clamp(2.8rem, 6vw, 6.5rem); }
 .visual-heading { padding-right: 2rem; }
 .visual-heading h2 { font-size: clamp(2.6rem, 4vw, 4.8rem); }
 .visual-development figure { margin: 0; }
-.visual-development img { display: block; width: 100%; height: 100%; max-height: 560px; object-fit: cover; border: 1px solid var(--line); }
+.gallery-open { position: relative; display: block; width: 100%; padding: 0; border: 0; color: inherit; background: transparent; cursor: zoom-in; }
+.gallery-open::after { content: "View larger"; position: absolute; right: .8rem; bottom: .8rem; padding: .45rem .6rem; color: var(--ink); background: rgba(231,224,210,.92); font-size: .58rem; font-weight: 850; letter-spacing: .12em; text-transform: uppercase; opacity: 0; transform: translateY(4px); transition: opacity .2s ease, transform .2s ease; }
+.gallery-open:hover::after, .gallery-open:focus-visible::after { opacity: 1; transform: translateY(0); }
+.visual-development img { display: block; width: 100%; height: 100%; max-height: 560px; object-fit: cover; border: 1px solid var(--line); transition: filter .2s ease; }
 .visual-development figcaption { margin-top: .6rem; color: var(--paper-soft); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; }
+
+.image-lightbox[hidden] { display: none; }
+.image-lightbox { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: clamp(1rem, 4vw, 3rem); }
+.lightbox-backdrop { position: absolute; inset: 0; border: 0; background: rgba(3,5,5,.86); cursor: zoom-out; }
+.lightbox-panel { position: relative; z-index: 1; width: min(1180px, 94vw); max-height: 92svh; margin: 0; padding: clamp(.6rem, 1.5vw, 1rem); border: 1px solid rgba(231,224,210,.28); background: #0d1110; box-shadow: 0 24px 80px rgba(0,0,0,.64); }
+.lightbox-panel img { display: block; width: 100%; max-height: 78svh; object-fit: contain; background: #050706; }
+.lightbox-panel.is-portrait { width: min(620px, 92vw); }
+.lightbox-panel.is-portrait img { max-height: 76svh; }
+.lightbox-panel.is-shane img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 0% 24%; }
+.lightbox-panel figcaption { margin-top: .75rem; color: var(--paper-soft); font-size: .68rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+.lightbox-close { position: absolute; top: .75rem; right: .75rem; z-index: 2; display: grid; place-items: center; width: 2.4rem; height: 2.4rem; border: 1px solid rgba(231,224,210,.5); color: var(--ink); background: var(--paper); cursor: pointer; font-size: 1.8rem; line-height: 1; }
+body.lightbox-open { overflow: hidden; }
 
 .follow { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem, 9vw, 10rem); padding: clamp(5rem, 11vw, 10rem) clamp(1.25rem, 8vw, 9rem); background: #203331; }
 .follow-copy p:not(.eyebrow) { max-width: 650px; color: #ccd2cb; }

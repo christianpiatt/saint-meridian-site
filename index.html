@@ -107,7 +107,14 @@
         </div>
         <div class="character-grid">
           <article class="character-card bella">
-            <div class="character-portrait" role="img" aria-label="Bella Moreau in existing Saint Meridian visual development."></div>
+            <button
+              class="character-portrait gallery-open"
+              type="button"
+              data-lightbox-src="assets/bella-moreau-v3.png"
+              data-lightbox-caption="Bella Moreau · existing character visual development"
+              data-lightbox-kind="portrait"
+              aria-label="Open Bella Moreau portrait larger"
+            ></button>
             <div>
               <p class="character-role">The girl who noticed</p>
               <h3>Bella Moreau</h3>
@@ -115,7 +122,14 @@
             </div>
           </article>
           <article class="character-card shane">
-            <div class="character-portrait" role="img" aria-label="Shane Parker in existing Saint Meridian visual development."></div>
+            <button
+              class="character-portrait gallery-open"
+              type="button"
+              data-lightbox-src="assets/saint-meridian-ensemble.jpg"
+              data-lightbox-caption="Shane Parker · existing character visual development"
+              data-lightbox-kind="portrait shane"
+              aria-label="Open Shane Parker portrait larger"
+            ></button>
             <div>
               <p class="character-role">The seeker</p>
               <h3>Shane Parker</h3>
@@ -123,7 +137,14 @@
             </div>
           </article>
           <article class="character-card sophia">
-            <div class="character-portrait" role="img" aria-label="Sophia Alvarez in Saint Meridian visual development."></div>
+            <button
+              class="character-portrait gallery-open"
+              type="button"
+              data-lightbox-src="assets/sophia-alvarez-v2.png"
+              data-lightbox-caption="Sophia Alvarez · existing character visual development"
+              data-lightbox-kind="portrait"
+              aria-label="Open Sophia Alvarez portrait larger"
+            ></button>
             <div>
               <p class="character-role">The interpreter</p>
               <h3>Sophia Alvarez</h3>
@@ -131,7 +152,14 @@
             </div>
           </article>
           <article class="character-card nina">
-            <div class="character-portrait" role="img" aria-label="Nina Mercer in Saint Meridian visual development."></div>
+            <button
+              class="character-portrait gallery-open"
+              type="button"
+              data-lightbox-src="assets/nina-mercer-v2.png"
+              data-lightbox-caption="Nina Mercer · existing character visual development"
+              data-lightbox-kind="portrait"
+              aria-label="Open Nina Mercer portrait larger"
+            ></button>
             <div>
               <p class="character-role">The witness</p>
               <h3>Nina Mercer</h3>
@@ -148,11 +176,27 @@
           <h2 id="visual-title">The city has a memory.</h2>
         </div>
         <figure>
-          <img src="assets/page-12-image-01.jpg" alt="Concept panels showing the Office, Nina’s Archive, The Squall, and Andre’s." />
+          <button
+            class="gallery-open"
+            type="button"
+            data-lightbox-src="assets/page-12-image-01.jpg"
+            data-lightbox-caption="Key lived spaces · existing visual development"
+            aria-label="Open Key lived spaces image larger"
+          >
+            <img src="assets/page-12-image-01.jpg" alt="Concept panels showing the Office, Nina’s Archive, The Squall, and Andre’s." />
+          </button>
           <figcaption>Key lived spaces · existing visual development</figcaption>
         </figure>
         <figure>
-          <img src="assets/page-07-image-01.jpg" alt="Concept panels showing The Flats, Harbourtown, and the Warehouse District." />
+          <button
+            class="gallery-open"
+            type="button"
+            data-lightbox-src="assets/page-07-image-01.jpg"
+            data-lightbox-caption="Neighborhood voices · existing visual development"
+            aria-label="Open Neighborhood voices image larger"
+          >
+            <img src="assets/page-07-image-01.jpg" alt="Concept panels showing The Flats, Harbourtown, and the Warehouse District." />
+          </button>
           <figcaption>Neighborhood voices · existing visual development</figcaption>
         </figure>
       </section>
@@ -221,6 +265,15 @@
       <audio id="atmosphere-audio" preload="auto" loop autoplay>
         <source src="assets/audio/saint-meridian-background-score.mp3" type="audio/mpeg" />
       </audio>
+    </div>
+
+    <div class="image-lightbox" data-lightbox hidden>
+      <button class="lightbox-backdrop" type="button" data-lightbox-close aria-label="Close enlarged image"></button>
+      <figure class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Expanded visual development image">
+        <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close enlarged image">×</button>
+        <img data-lightbox-image alt="" />
+        <figcaption data-lightbox-caption></figcaption>
+      </figure>
     </div>
 
     <footer class="site-footer">

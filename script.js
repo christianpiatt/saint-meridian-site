@@ -5,9 +5,15 @@ const atmosphereAudio = document.querySelector("#atmosphere-audio");
 const soundToggle = document.querySelector("[data-sound-toggle]");
 const signupForm = document.querySelector("[data-signup-form]");
 const formStatus = document.querySelector("[data-form-status]");
+const lightbox = document.querySelector("[data-lightbox]");
+const lightboxPanel = lightbox?.querySelector(".lightbox-panel");
+const lightboxImage = lightbox?.querySelector("[data-lightbox-image]");
+const lightboxCaption = lightbox?.querySelector(".lightbox-panel [data-lightbox-caption]");
+const lightboxCloseButtons = lightbox?.querySelectorAll("[data-lightbox-close]");
 let voicemailTimer;
 let voicemailContext;
 let voicemailSource;
+let lastLightboxTrigger;
 
 function prepareVoicemailSound() {
   if (!voicemailAudio) return;
@@ -93,6 +99,41 @@ soundToggle?.addEventListener("click", async () => {
     soundToggle.setAttribute("aria-pressed", "false");
     label.textContent = "Music off";
   }
+});
+
+function closeLightbox() {
+  if (!lightbox || !lightboxImage || !lightboxPanel) return;
+  lightbox.hidden = true;
+  document.body.classList.remove("lightbox-open");
+  lightboxImage.removeAttribute("src");
+  lightboxImage.alt = "";
+  lightboxPanel.classList.remove("is-portrait", "is-shane");
+  lastLightboxTrigger?.focus();
+}
+
+document.querySelectorAll("[data-lightbox-src]").forEach((trigger) => {
+  trigger.addEventListener("click", () => {
+    if (!lightbox || !lightboxImage || !lightboxCaption || !lightboxPanel) return;
+    const source = trigger.dataset.lightboxSrc;
+    const caption = trigger.dataset.lightboxCaption || "";
+    const kind = trigger.dataset.lightboxKind || "";
+    if (!source) return;
+
+    lastLightboxTrigger = trigger;
+    lightboxImage.src = source;
+    lightboxImage.alt = caption;
+    lightboxCaption.textContent = caption;
+    lightboxPanel.classList.toggle("is-portrait", kind.includes("portrait"));
+    lightboxPanel.classList.toggle("is-shane", kind.includes("shane"));
+    lightbox.hidden = false;
+    document.body.classList.add("lightbox-open");
+    lightbox.querySelector(".lightbox-close")?.focus();
+  });
+});
+
+lightboxCloseButtons?.forEach((button) => button.addEventListener("click", closeLightbox));
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
 });
 
 signupForm?.addEventListener("submit", async (event) => {
